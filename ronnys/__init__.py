@@ -33,5 +33,23 @@ def ronnys():
     print("             USAGE: diri(a, 'get')")
     print("                    diri(a, 'get', internals=True)")
     print("-------------------------------------------------------------------")
-    print("")
+    print("printl()     Prints items in a list, one line at a time.")
+    print("             Also allows you to filter for values containing some")
+    print("             specific text/value")
+    print("             USAGE: printl(a, "r")  # filters items containing r   ")
+    print("                    printl(a, 3)    # filters valus contianing a 3 ")
     print("===================================================================")
+
+
+def printl(l, filter=""):
+    """
+    Prints the items of some list one line at a time.
+
+    Allows you to filter for items that contains some text/value in them.
+    :param l:
+    :param filter:
+    :return:
+    """
+    for item in l:
+        if str(filter) in str(item):
+            print(item)
