@@ -20,3 +20,18 @@ def diri(obj, s="", internals=False):
         if s in item:
             print(item)
 
+
+def ronnys():
+    """
+    prints a summary of all the functions available in this package
+    """
+    print("===================================================================")
+    print("                          RONNYS FUNCTIONS")
+    print("===================================================================")
+    print("diri()       like dir but with filtering for items containing some ")
+    print("             text. Also allows you to filter internal values.")
+    print("             USAGE: diri(a, 'get')")
+    print("                    diri(a, 'get', internals=True)")
+    print("-------------------------------------------------------------------")
+    print("")
+    print("===================================================================")
