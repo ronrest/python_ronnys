@@ -39,6 +39,12 @@ def ronnys():
     print("             USAGE: printl(a, "r")  # filters items containing r   ")
     print("                    printl(a, 3)    # filters valus contianing a 3 ")
     print("                    printl(a, 3, n=3) # returns the first 3 results")
+    print("-------------------------------------------------------------------")
+    print("var_vals()   Takes a list of strings representing variable names.")
+    print("             Prints out key value pairs of the name of each variable")
+    print("             and the value it has.")
+    print("             USAGE: var_list = ['var1', 'var2', 'var3']")
+    print("                    var_val(var_list)")
     print("===================================================================")
 
 
@@ -75,3 +81,25 @@ def printl(l, filter="", n=None):
             else:
                 count += 1
 
+
+
+# ==============================================================================
+#                                                                       VAR VALS
+# ==============================================================================
+def var_vals(names):
+    """
+    Takes a list of strings representing variable names. Prints out the name of
+    each variable, and the value that it has, one per line, as key value pairs.
+
+    :param names: (list of strings)
+    :usage:
+        a = 443
+        b = 543
+        c = 734
+        d = 967
+        vars = ["a", "b", "c", "d"]
+
+        var_vals(vars)
+    """
+    for name in names:
+        print "{name}  = {val}".format(name=name, val=globals()[name])
