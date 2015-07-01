@@ -38,18 +38,40 @@ def ronnys():
     print("             specific text/value")
     print("             USAGE: printl(a, "r")  # filters items containing r   ")
     print("                    printl(a, 3)    # filters valus contianing a 3 ")
+    print("                    printl(a, 3, n=3) # returns the first 3 results")
     print("===================================================================")
 
 
-def printl(l, filter=""):
+def printl(l, filter="", n=None):
     """
     Prints the items of some list one line at a time.
 
     Allows you to filter for items that contains some text/value in them.
     :param l:
     :param filter:
-    :return:
+    :param n: only return the first n items (satisfying the filtered conditions)
+    :examples:
+
+        # filters items containing r
+        printl(a, "r")
+
+        # filters for items containing a 3
+        printl(a, 3)
+
+        # returns the first 3 results of items containing a 3
+        printl(a, 3, n=3)
     """
+    count = 1
+    if n is None:
+        n = float("inf")
+
     for item in l:
         if str(filter) in str(item):
             print(item)
+
+            # Check how many items have been printed
+            if count >= n:
+                break
+            else:
+                count += 1
+
