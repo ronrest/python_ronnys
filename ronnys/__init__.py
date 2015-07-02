@@ -1,3 +1,7 @@
+
+# ==============================================================================
+#                                                                           DIRI
+# ==============================================================================
 def diri(obj, s="", internals=False):
     """
     Is like dir() function, but allows you to filter for values containing some
@@ -14,6 +18,7 @@ def diri(obj, s="", internals=False):
 
                       (DEFAULT is False)
     """
+    # ==========================================================================
     for item in dir(obj):
         if (item.startswith("_") and not internals):
             continue
@@ -21,6 +26,9 @@ def diri(obj, s="", internals=False):
             print(item)
 
 
+# ==============================================================================
+#                                                                         RONNYS
+# ==============================================================================
 def ronnys():
     """
     prints a summary of all the functions available in this package
@@ -48,6 +56,9 @@ def ronnys():
     print("===================================================================")
 
 
+# ==============================================================================
+#                                                                         PRINTL
+# ==============================================================================
 def printl(l, filter="", n=None):
     """
     Prints the items of some list one line at a time.
@@ -67,6 +78,7 @@ def printl(l, filter="", n=None):
         # returns the first 3 results of items containing a 3
         printl(a, 3, n=3)
     """
+    # ==========================================================================
     count = 1
     if n is None:
         n = float("inf")
@@ -101,5 +113,6 @@ def var_vals(names):
 
         var_vals(vars)
     """
+    # ==========================================================================
     for name in names:
         print "{name}  = {val}".format(name=name, val=globals()[name])
