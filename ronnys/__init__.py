@@ -146,7 +146,10 @@ def var_vals(names, print_it=True, glob=False, depth=1):
     for name in names:
         #print "{name}  = {val}".format(name=name, val=globals()[name])
         vals.append(var_val(name, glob=glob, print_it=print_it, depth=1+depth))
-    return vals
+
+    # Only return values as a list if printing is disabled
+    if not print_it:
+        return vals
 
 
 # ==============================================================================
