@@ -94,16 +94,42 @@ def printl(l, filter="", n=None):
                 count += 1
 
 
+import inspect  # required for var_vals
 
 # ==============================================================================
 #                                                                       VAR VALS
 # ==============================================================================
-def var_vals(names):
+def var_vals(names, print_it=True, glob=False, depth=1):
     """
-    Takes a list of strings representing variable names. Prints out the name of
-    each variable, and the value that it has, one per line, as key value pairs.
+    Takes a list of strings representing variable names. Returns the vales for
+    each of those variables.
 
-    :param names: (list of strings)
+    By default, it prints out in the console a key value pair of each variable,
+    and the value that it has, one per line. To disable this use:
+    print_it=False  which will return the values in a list instead.
+
+    You can specify that you want to search global namespace instead of local
+    namespace by setting glob=True.
+
+    :param names: (list of strings) list of variable names.
+    :param print_it: (boolean) Should it print a key value pair in the console
+                    instead of returning the actual value?
+
+                     (DEFAULT is False)
+    :param glob: (boolean) use global namespace?
+
+                    - False - Searches in local namespace of where this function
+                              is called from.
+
+                    (DEFAULT is False)
+    :param depth: (boolean) Only to be used to write a wrapper function around
+                   this function, so it knows how many function call stacks to
+                   follow to get the desired frame.
+
+                   (DEFAULT is 1)
+    :return: the value of the variable you named (But only if you specified
+             print_it=False, otherwise it prints to the console instead).
+
     :usage:
         a = 443
         b = 543
@@ -114,5 +140,66 @@ def var_vals(names):
         var_vals(vars)
     """
     # ==========================================================================
+    vals = []
+    if isinstance(names, str):
+        names = [names]
     for name in names:
-        print "{name}  = {val}".format(name=name, val=globals()[name])
+        #print "{name}  = {val}".format(name=name, val=globals()[name])
+        vals.append(var_val(name, glob=glob, print_it=print_it, depth=1+depth))
+    return vals
+
+
+# ==============================================================================
+#                                                                        VAR_VAL
+# ==============================================================================
+def var_val(name, print_it=True, glob=False, depth=1):
+    """
+    Get the value of a variable based on its name.
+
+    :param name: (str) Variable name as a string
+    :param print_it: (boolean) Should it print a key value pair in the console
+                    instead of returning the actual value?
+
+                     (DEFAULT is False)
+    :param glob: (boolean) use global namespace?
+
+                    (DEFAULT is False)
+    :param depth: (boolean) Only to be used to write a wrapper function around
+                   this function, so it knows how many function call stacks to
+                   follow to get the desired frame.
+
+                   (DEFAULT is 1)
+    :return: the value of the variable you named (But only if you specified
+             print_it=False, otherwise it prints to the console instead).
+    """
+    # ==========================================================================
+    import inspect
+    assert isinstance(name, str), \
+        "argument *name* in var_val() function MUST be a string, not a \n"\
+        "'{}' object".format(str(type(name)))
+    assert (depth >=1), \
+        "argument *depth* in var_val() function MUST be must be at least 1"
+    assert isinstance(depth, int), \
+        "argument *depth* in var_val() function MUST be must be an integer"
+
+    # Go up the function call stack
+    frame = inspect.currentframe()
+    for i in range(depth):
+        frame = frame.f_back
+    try:
+        if glob:
+            val = frame.f_globals[name]
+        else:
+            val = frame.f_locals[name]
+
+        if print_it:
+            print(name + "  =  " + str(val))
+        else:
+            return val
+    except KeyError:
+        if glob:scope = "GLOBAL"
+        else: scope = "LOCAL"
+
+        val = "THIS VARIABLE DOES NOT EXIST IN THE {} SCOPE".format(scope)
+        print(name + "  =  " + str(val))
+        return None
